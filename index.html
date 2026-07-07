@@ -359,7 +359,7 @@
       // Stack cards slightly
       const offset = index - currentIndex;
       if (offset === 0) {
-        // Top card
+        div.style.zIndex = 10;
       } else if (offset < 3) {
         div.style.transform = `scale(${1 - offset * 0.05}) translateY(${offset * 8}px)`;
         div.style.zIndex = 10 - offset;

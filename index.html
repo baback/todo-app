@@ -2,328 +2,549 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Todo App · EdgeBase</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>CarMatch · Swipe for Cars</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      background: #f1f5f9;
-      color: #0f172a;
+      background: #0a0a0a;
+      color: #fff;
       display: flex;
-      justify-content: center;
-      min-height: 100vh;
-      padding: 2rem 1rem;
-    }
-    .container {
-      width: 100%;
-      max-width: 540px;
-    }
-    h1 {
-      font-size: 1.75rem;
-      font-weight: 700;
-      margin-bottom: 0.25rem;
-      display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 0.5rem;
-    }
-    .subtitle {
-      color: #64748b;
-      font-size: 0.85rem;
-      margin-bottom: 1.5rem;
-    }
-    .card {
-      background: #fff;
-      border-radius: 12px;
-      box-shadow: 0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.06);
+      min-height: 100dvh;
       overflow: hidden;
+      user-select: none;
+      -webkit-user-select: none;
     }
-    .add-form {
-      display: flex;
-      border-bottom: 1px solid #e2e8f0;
-    }
-    .add-form input {
-      flex: 1;
-      border: none;
-      padding: 1rem 1rem;
-      font-size: 0.95rem;
-      outline: none;
-      background: transparent;
-    }
-    .add-form button {
-      border: none;
-      background: #6366f1;
-      color: #fff;
-      font-weight: 600;
-      padding: 0 1.25rem;
-      cursor: pointer;
-      font-size: 0.9rem;
-      transition: background .15s;
-    }
-    .add-form button:hover { background: #4f46e5; }
-    .add-form button:disabled { background: #a5b4fc; cursor: not-allowed; }
 
-    .todo-list { list-style: none; }
-    .todo-item {
+    /* Header */
+    .header {
+      width: 100%;
+      max-width: 420px;
+      padding: 12px 20px;
       display: flex;
       align-items: center;
-      gap: 0.75rem;
-      padding: 0.85rem 1rem;
-      border-bottom: 1px solid #f1f5f9;
-      transition: background .1s;
+      justify-content: space-between;
+      z-index: 10;
     }
-    .todo-item:last-child { border-bottom: none; }
-    .todo-item:hover { background: #f8fafc; }
+    .header h1 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #ff6b6b, #ffa94d);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .header .badge {
+      background: rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 0.75rem;
+      color: #999;
+      border: 1px solid rgba(255,255,255,0.08);
+    }
 
-    .todo-item .checkbox {
-      width: 20px; height: 20px;
-      border: 2px solid #cbd5e1;
-      border-radius: 6px;
-      cursor: pointer;
+    /* Card area */
+    .deck {
+      flex: 1;
+      width: 100%;
+      max-width: 420px;
+      position: relative;
       display: flex;
       align-items: center;
       justify-content: center;
-      flex-shrink: 0;
-      transition: all .15s;
-      background: #fff;
+      padding: 0 16px;
     }
-    .todo-item .checkbox.checked {
-      background: #6366f1;
-      border-color: #6366f1;
+
+    .card-container {
+      width: 100%;
+      height: 70vh;
+      max-height: 600px;
+      position: relative;
     }
-    .todo-item .checkbox.checked::after {
-      content: "✓";
-      color: #fff;
-      font-size: 13px;
+
+    .card {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #1a1a2e;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+      transition: transform 0.3s ease;
+      cursor: grab;
+      touch-action: none;
+    }
+    .card:active { cursor: grabbing; }
+
+    .card .car-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      pointer-events: none;
+    }
+
+    .card .overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: 80px 20px 24px;
+      background: linear-gradient(transparent, rgba(0,0,0,0.85));
+    }
+    .card .name {
+      font-size: 1.5rem;
       font-weight: 700;
-      line-height: 1;
+      letter-spacing: -0.5px;
     }
-    .todo-item .title {
-      flex: 1;
-      font-size: 0.95rem;
+    .card .name span {
+      font-weight: 400;
+      color: #aaa;
+      font-size: 1.2rem;
     }
-    .todo-item .title.done {
-      text-decoration: line-through;
-      color: #94a3b8;
+    .card .bio {
+      font-size: 0.85rem;
+      color: #ccc;
+      margin-top: 6px;
+      line-height: 1.4;
     }
-    .todo-item .delete-btn {
-      border: none;
-      background: none;
-      color: #94a3b8;
-      cursor: pointer;
-      font-size: 1.1rem;
-      padding: 4px 6px;
-      border-radius: 6px;
-      transition: all .15s;
+
+    /* Swipe indicators */
+    .card .stamp {
+      position: absolute;
+      top: 40px;
+      font-size: 2.5rem;
+      font-weight: 800;
+      padding: 10px 20px;
+      border: 4px solid;
+      border-radius: 12px;
       opacity: 0;
+      transform: rotate(-15deg);
+      pointer-events: none;
+      transition: opacity 0.15s;
+      z-index: 2;
     }
-    .todo-item:hover .delete-btn { opacity: 1; }
-    .todo-item .delete-btn:hover {
-      color: #ef4444;
-      background: #fef2f2;
+    .card .stamp.nope {
+      right: 20px;
+      color: #ff4757;
+      border-color: #ff4757;
+    }
+    .card .stamp.like {
+      left: 20px;
+      color: #2ed573;
+      border-color: #2ed573;
     }
 
-    .empty-state {
+    /* No more cards */
+    .empty-deck {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
       text-align: center;
-      padding: 2.5rem 1rem;
-      color: #94a3b8;
+      color: #555;
+      border-radius: 16px;
+      background: #12121a;
+      border: 2px dashed #2a2a3a;
     }
-    .empty-state p { margin-top: 0.5rem; font-size: 0.9rem; }
+    .empty-deck .icon { font-size: 3rem; }
+    .empty-deck p { font-size: 1rem; color: #666; }
+    .empty-deck .sub { font-size: 0.8rem; color: #444; }
 
-    .footer {
-      text-align: center;
-      margin-top: 1rem;
+    /* Bottom buttons */
+    .actions {
+      width: 100%;
+      max-width: 420px;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      z-index: 10;
+    }
+    .actions button {
+      border: none;
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      font-size: 1.5rem;
+      cursor: pointer;
+      transition: all 0.15s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+    .actions button:active { transform: scale(0.9); }
+    .btn-nope {
+      background: #2a1a1a;
+      color: #ff4757;
+    }
+    .btn-nope:hover { background: #3a1a1a; }
+    .btn-like {
+      background: #1a2a1a;
+      color: #2ed573;
+    }
+    .btn-like:hover { background: #1a3a1a; }
+
+    /* Liked bar */
+    .liked-section {
+      width: 100%;
+      max-width: 420px;
+      padding: 0 16px 16px;
+      z-index: 10;
+    }
+    .liked-toggle {
+      background: none;
+      border: 1px solid rgba(255,255,255,0.1);
+      color: #999;
+      padding: 8px 16px;
+      border-radius: 20px;
       font-size: 0.8rem;
-      color: #94a3b8;
+      cursor: pointer;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      transition: all 0.15s;
     }
-    .footer a { color: #6366f1; text-decoration: none; }
-
-    .status {
-      text-align: center;
-      padding: 0.5rem;
-      font-size: 0.8rem;
+    .liked-toggle:hover {
+      border-color: rgba(255,255,255,0.2);
+      color: #fff;
     }
-    .status.error { color: #ef4444; }
-    .status.loading { color: #6366f1; }
+    .liked-grid {
+      display: none;
+      gap: 8px;
+      margin-top: 8px;
+      padding: 12px;
+      background: rgba(255,255,255,0.03);
+      border-radius: 12px;
+      max-height: 140px;
+      overflow-y: auto;
+    }
+    .liked-grid.open { display: flex; flex-wrap: wrap; }
+    .liked-grid .chip {
+      background: rgba(45, 213, 122, 0.15);
+      border: 1px solid rgba(45, 213, 122, 0.2);
+      border-radius: 20px;
+      padding: 4px 12px;
+      font-size: 0.75rem;
+      color: #2ed573;
+    }
 
-    @media (prefers-color-scheme: dark) {
-      body { background: #0f172a; color: #e2e8f0; }
-      .card { background: #1e293b; }
-      .add-form { border-color: #334155; }
-      .add-form input { color: #e2e8f0; }
-      .add-form input::placeholder { color: #64748b; }
-      .todo-item { border-color: #1e293b; }
-      .todo-item:hover { background: #162032; }
-      .subtitle { color: #64748b; }
-      .todo-item .title.done { color: #475569; }
-      .todo-item .delete-btn { color: #475569; }
-      .todo-item .delete-btn:hover { color: #ef4444; background: #2d1b1b; }
-      .empty-state { color: #475569; }
-      .footer { color: #475569; }
-      .todo-item .checkbox { border-color: #475569; background: #1e293b; }
+    /* Counter badge on card */
+    .card .counter {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(8px);
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.7rem;
+      color: #888;
+      z-index: 2;
+    }
+
+    /* Loading */
+    .loading-state {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      color: #555;
     }
   </style>
 </head>
 <body>
-  <div class="container">
-    <h1>
-      <span>☑</span> Todos
-    </h1>
-    <p class="subtitle">Powered by EdgeBase &middot; SQLite at the edge</p>
+  <div class="header">
+    <h1>CarMatch</h1>
+    <span class="badge" id="counter-badge">0 liked</span>
+  </div>
 
-    <div class="card">
-      <div class="add-form">
-        <input type="text" id="new-todo" placeholder="Add a new todo..." autofocus>
-        <button id="add-btn">Add</button>
-      </div>
-      <div id="status" class="status"></div>
-      <ul class="todo-list" id="todo-list"></ul>
+  <div class="deck" id="deck">
+    <div class="card-container" id="card-container">
+      <div class="loading-state" id="loading">Loading cars...</div>
     </div>
+  </div>
 
-    <div class="footer">
-      Data stored in <a href="https://sopranos.dev" target="_blank">EdgeBase</a> &middot;
-      <a href="https://github.com/nousresearch/hermes" target="_blank">Built with Hermes</a>
-    </div>
+  <div class="actions" id="actions" style="display:none">
+    <button class="btn-nope" id="btn-nope">✕</button>
+    <button class="btn-like" id="btn-like">♥</button>
+  </div>
+
+  <div class="liked-section">
+    <button class="liked-toggle" id="liked-toggle">▼ Likes (<span id="liked-count">0</span>)</button>
+    <div class="liked-grid" id="liked-grid"></div>
   </div>
 
   <script>
     // --- Config ---
     const API_BASE = 'https://data.sopranos.dev/v1/proj_n6cdkmuxl2kom0ovcrtbglbo/db';
     const API_KEY = 'eb_sk_27jusfgzsw8des8jpdqqeml5uztfokw11nz7h6j3';
+    const CAR_TABLE = '/cars';
 
     const headers = {
       'Authorization': `Bearer ${API_KEY}`,
       'Content-Type': 'application/json',
     };
 
-    // --- DOM refs ---
-    const listEl = document.getElementById('todo-list');
-    const inputEl = document.getElementById('new-todo');
-    const addBtn = document.getElementById('add-btn');
-    const statusEl = document.getElementById('status');
+    // --- State ---
+    let cards = [];
+    let currentIndex = 0;
+    let likedCars = JSON.parse(localStorage.getItem('carmatch_likes') || '[]');
+    let isDragging = false;
+    let startX = 0, startY = 0, currentX = 0, currentY = 0;
+    let isAnimating = false;
+
+    const container = document.getElementById('card-container');
+    const loading = document.getElementById('loading');
+    const actions = document.getElementById('actions');
+    const likedToggle = document.getElementById('liked-toggle');
+    const likedGrid = document.getElementById('liked-grid');
+    const likedCount = document.getElementById('liked-count');
+    const counterBadge = document.getElementById('counter-badge');
 
     // --- Helpers ---
-    function setStatus(msg, type = '') {
-      statusEl.textContent = msg;
-      statusEl.className = 'status ' + type;
-      if (!msg) statusEl.className = 'status';
-    }
-
     async function api(method, path, body) {
       const url = API_BASE + path;
       const opts = { method, headers };
       if (body) opts.body = JSON.stringify(body);
       const res = await fetch(url, opts);
-      // DELETE etc may return empty body
       const text = await res.text();
       if (!text) return { data: null };
       const json = JSON.parse(text);
-      if (json.error) throw new Error(json.error.message || 'API error');
+      if (json.error) throw new Error(json.error.message);
       return json;
     }
 
-    // --- Render ---
-    function renderTodos(todos) {
-      if (!todos.length) {
-        listEl.innerHTML = `<div class="empty-state">
-          <div style="font-size:2rem;margin-bottom:0.5rem;">📋</div>
-          <p>No todos yet. Add one above!</p>
-        </div>`;
+    function updateUI() {
+      likedCount.textContent = likedCars.length;
+      counterBadge.textContent = `${likedCars.length} liked`;
+      renderLikedGrid();
+    }
+
+    function renderLikedGrid() {
+      if (likedGrid.classList.contains('open')) {
+        likedGrid.innerHTML = likedCars.map(c =>
+          `<span class="chip">${c.make} ${c.model}</span>`
+        ).join('');
+      }
+    }
+
+    // --- Card rendering ---
+    function buildCard(car, index) {
+      const div = document.createElement('div');
+      div.className = 'card';
+      div.dataset.index = index;
+
+      const remaining = cards.length - currentIndex;
+      div.innerHTML = `
+        <div class="stamp nope" id="stamp-nope">NOPE</div>
+        <div class="stamp like" id="stamp-like">LIKE</div>
+        <img class="car-img" src="${car.image_url}" alt="${car.make} ${car.model}" loading="lazy" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22600%22 height=%22800%22><rect fill=%22%23333%22 width=%22600%22 height=%22800%22/><text x=%22300%22 y=%22400%22 text-anchor=%22middle%22 fill=%22%23666%22 font-size=%2224%22>${encodeURIComponent(car.make + ' ' + car.model)}</text></svg>'">
+        <div class="counter">${index + 1}/${cards.length}</div>
+        <div class="overlay">
+          <div class="name">${car.year} ${car.make} <span>${car.model}</span></div>
+          <div class="bio">${car.bio || ''}</div>
+        </div>
+      `;
+
+      // Stack cards slightly
+      const offset = index - currentIndex;
+      if (offset === 0) {
+        // Top card
+      } else if (offset < 3) {
+        div.style.transform = `scale(${1 - offset * 0.05}) translateY(${offset * 8}px)`;
+        div.style.zIndex = 10 - offset;
+        div.style.pointerEvents = 'none';
+      } else {
+        div.style.display = 'none';
+      }
+
+      // Touch/mouse drag handlers (only for top card)
+      if (offset === 0) {
+        div.addEventListener('pointerdown', onPointerDown);
+        div.addEventListener('pointermove', onPointerMove);
+        div.addEventListener('pointerup', onPointerUp);
+        div.addEventListener('pointercancel', onPointerUp);
+      }
+
+      return div;
+    }
+
+    // --- Drag logic ---
+    const SWIPE_THRESHOLD = 80;
+
+    function onPointerDown(e) {
+      if (isAnimating) return;
+      isDragging = true;
+      startX = e.clientX;
+      startY = e.clientY;
+      currentX = 0;
+      currentY = 0;
+      const card = e.currentTarget;
+      card.style.transition = 'none';
+    }
+
+    function onPointerMove(e) {
+      if (!isDragging) return;
+      e.preventDefault();
+      currentX = e.clientX - startX;
+      currentY = e.clientY - startY;
+      const card = e.currentTarget;
+      const rotate = Math.max(-25, Math.min(25, currentX * 0.1));
+      card.style.transform = `translate(${currentX}px, ${currentY}px) rotate(${rotate}deg)`;
+
+      // Show stamps
+      const stampNope = card.querySelector('#stamp-nope');
+      const stampLike = card.querySelector('#stamp-like');
+      stampNope.style.opacity = currentX < -30 ? Math.min(1, Math.abs(currentX) / 150) : 0;
+      stampLike.style.opacity = currentX > 30 ? Math.min(1, currentX / 150) : 0;
+    }
+
+    function onPointerUp(e) {
+      if (!isDragging) return;
+      isDragging = false;
+      const card = e.currentTarget;
+
+      if (Math.abs(currentX) > SWIPE_THRESHOLD) {
+        const direction = currentX > 0 ? 'right' : 'left';
+        const flyX = direction === 'right' ? 800 : -800;
+        isAnimating = true;
+        card.style.transition = 'transform 0.4s ease';
+        card.style.transform = `translate(${flyX}px, ${currentY + 100}px) rotate(${direction === 'right' ? 25 : -25}deg)`;
+        card.style.pointerEvents = 'none';
+
+        setTimeout(() => {
+          if (direction === 'right') likeCar();
+          else skipCar();
+          card.remove();
+          isAnimating = false;
+          renderCards();
+        }, 400);
+      } else {
+        // Snap back
+        card.style.transition = 'transform 0.3s ease';
+        card.style.transform = '';
+        const stampNope = card.querySelector('#stamp-nope');
+        const stampLike = card.querySelector('#stamp-like');
+        stampNope.style.opacity = 0;
+        stampLike.style.opacity = 0;
+      }
+    }
+
+    // --- Actions ---
+    function likeCar() {
+      const car = cards[currentIndex];
+      if (!car) return;
+      if (!likedCars.find(c => c.id === car.id)) {
+        likedCars.push({ id: car.id, make: car.make, model: car.model });
+        localStorage.setItem('carmatch_likes', JSON.stringify(likedCars));
+      }
+      currentIndex++;
+      updateUI();
+    }
+
+    function skipCar() {
+      currentIndex++;
+      updateUI();
+    }
+
+    function renderCards() {
+      container.innerHTML = '';
+      actions.style.display = 'none';
+
+      if (currentIndex >= cards.length) {
+        container.innerHTML = `
+          <div class="empty-deck">
+            <div class="icon">🏎️</div>
+            <p>You've seen every car</p>
+            <div class="sub">You liked ${likedCars.length} cars</div>
+          </div>
+        `;
+        actions.style.display = 'flex';
+        // Disable buttons
+        document.getElementById('btn-nope').style.opacity = '0.3';
+        document.getElementById('btn-like').style.opacity = '0.3';
         return;
       }
-      listEl.innerHTML = todos.map(t => {
-        const done = t.completed === true || t.completed === 'true';
-        return `<li class="todo-item" data-id="${t.id}">
-          <div class="checkbox ${done ? 'checked' : ''}" data-action="toggle"></div>
-          <span class="title ${done ? 'done' : ''}">${escapeHtml(t.title)}</span>
-          <button class="delete-btn" data-action="delete" title="Delete">✕</button>
-        </li>`;
-      }).join('');
+
+      actions.style.display = 'flex';
+      document.getElementById('btn-nope').style.opacity = '1';
+      document.getElementById('btn-like').style.opacity = '1';
+
+      // Render next few cards (stack effect)
+      for (let i = currentIndex; i < Math.min(currentIndex + 3, cards.length); i++) {
+        const cardEl = buildCard(cards[i], i);
+        container.appendChild(cardEl);
+      }
     }
 
-    function escapeHtml(str) {
-      const div = document.createElement('div');
-      div.textContent = str;
-      return div.innerHTML;
-    }
-
-    // --- Data ---
-    async function loadTodos() {
-      setStatus('Loading...', 'loading');
+    // --- Load data ---
+    async function loadCars() {
       try {
-        const res = await api('GET', '/todos');
-        // Sort: incomplete first, then by id (newest last)
-        const todos = (res.data || []).sort((a, b) => {
-          const aDone = a.completed === true || a.completed === 'true';
-          const bDone = b.completed === true || b.completed === 'true';
-          if (aDone !== bDone) return aDone ? 1 : -1;
-          return (a.id || 0) - (b.id || 0);
-        });
-        renderTodos(todos);
-        setStatus('');
+        loading.textContent = 'Loading cars...';
+        const res = await api('GET', CAR_TABLE + '?limit=50');
+        cards = (res.data || []).sort(() => Math.random() - 0.5); // shuffle
+        if (cards.length === 0) {
+          loading.textContent = 'No cars in the stable!';
+          return;
+        }
+        currentIndex = 0;
+        renderCards();
+        updateUI();
       } catch (e) {
-        setStatus('Failed to load: ' + e.message, 'error');
+        loading.textContent = 'Failed to load: ' + e.message;
       }
     }
 
-    async function addTodo() {
-      const title = inputEl.value.trim();
-      if (!title) return;
-      addBtn.disabled = true;
-      setStatus('Adding...', 'loading');
-      try {
-        await api('POST', '/todos', { title, completed: false });
-        inputEl.value = '';
-        await loadTodos();
-      } catch (e) {
-        setStatus('Failed to add: ' + e.message, 'error');
-      }
-      addBtn.disabled = false;
-      inputEl.focus();
-    }
+    // --- Button handlers ---
+    document.getElementById('btn-nope').addEventListener('click', () => {
+      if (isAnimating || currentIndex >= cards.length) return;
+      const topCard = container.querySelector('.card');
+      if (!topCard) return;
+      isAnimating = true;
+      topCard.style.transition = 'transform 0.35s ease';
+      topCard.style.transform = 'translate(-500px, 80px) rotate(-20deg)';
+      topCard.style.pointerEvents = 'none';
+      setTimeout(() => {
+        skipCar();
+        topCard.remove();
+        isAnimating = false;
+        renderCards();
+      }, 350);
+    });
 
-    async function toggleTodo(id, currentCompleted) {
-      const newVal = !(currentCompleted === true || currentCompleted === 'true');
-      setStatus('Updating...', 'loading');
-      try {
-        await api('PATCH', `/todos/${id}`, { completed: newVal });
-        await loadTodos();
-      } catch (e) {
-        setStatus('Failed to update: ' + e.message, 'error');
-      }
-    }
+    document.getElementById('btn-like').addEventListener('click', () => {
+      if (isAnimating || currentIndex >= cards.length) return;
+      const topCard = container.querySelector('.card');
+      if (!topCard) return;
+      isAnimating = true;
+      topCard.style.transition = 'transform 0.35s ease';
+      topCard.style.transform = 'translate(500px, 80px) rotate(20deg)';
+      topCard.style.pointerEvents = 'none';
+      setTimeout(() => {
+        likeCar();
+        topCard.remove();
+        isAnimating = false;
+        renderCards();
+      }, 350);
+    });
 
-    async function deleteTodo(id) {
-      setStatus('Deleting...', 'loading');
-      try {
-        await api('DELETE', `/todos/${id}`);
-        await loadTodos();
-      } catch (e) {
-        setStatus('Failed to delete: ' + e.message, 'error');
-      }
-    }
-
-    // --- Events ---
-    addBtn.addEventListener('click', addTodo);
-    inputEl.addEventListener('keydown', e => { if (e.key === 'Enter') addTodo(); });
-
-    listEl.addEventListener('click', async (e) => {
-      const item = e.target.closest('.todo-item');
-      if (!item) return;
-      const id = parseInt(item.dataset.id);
-      const action = e.target.dataset.action;
-
-      if (action === 'toggle') {
-        // Find current state from the DOM
-        const isChecked = item.querySelector('.checkbox').classList.contains('checked');
-        await toggleTodo(id, isChecked);
-      } else if (action === 'delete') {
-        await deleteTodo(id);
-      }
+    likedToggle.addEventListener('click', () => {
+      likedGrid.classList.toggle('open');
+      renderLikedGrid();
     });
 
     // --- Boot ---
-    loadTodos();
+    loadCars();
   </script>
 </body>
 </html>

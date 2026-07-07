@@ -4,7 +4,6 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
   <title>CarMatch · Swipe for Cars</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -46,6 +45,25 @@
       color: #999;
       border: 1px solid rgba(255,255,255,0.08);
     }
+    .header .btn-signout {
+      background: none;
+      border: 1px solid rgba(255,255,255,0.15);
+      color: #888;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.7rem;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .header .btn-signout:hover { border-color: #ff4757; color: #ff4757; }
+    .header .user-email {
+      font-size: 0.7rem;
+      color: #555;
+      max-width: 120px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
 
     /* Card area */
     .deck {
@@ -58,14 +76,12 @@
       justify-content: center;
       padding: 0 16px;
     }
-
     .card-container {
       width: 100%;
       height: 70vh;
       max-height: 600px;
       position: relative;
     }
-
     .card {
       position: absolute;
       width: 100%;
@@ -79,14 +95,12 @@
       touch-action: none;
     }
     .card:active { cursor: grabbing; }
-
     .card .car-img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       pointer-events: none;
     }
-
     .card .overlay {
       position: absolute;
       bottom: 0;
@@ -100,17 +114,8 @@
       font-weight: 700;
       letter-spacing: -0.5px;
     }
-    .card .name span {
-      font-weight: 400;
-      color: #aaa;
-      font-size: 1.2rem;
-    }
-    .card .bio {
-      font-size: 0.85rem;
-      color: #ccc;
-      margin-top: 6px;
-      line-height: 1.4;
-    }
+    .card .name span { font-weight: 400; color: #aaa; font-size: 1.2rem; }
+    .card .bio { font-size: 0.85rem; color: #ccc; margin-top: 6px; line-height: 1.4; }
 
     /* Swipe indicators */
     .card .stamp {
@@ -127,118 +132,8 @@
       transition: opacity 0.15s;
       z-index: 2;
     }
-    .card .stamp.nope {
-      right: 20px;
-      color: #ff4757;
-      border-color: #ff4757;
-    }
-    .card .stamp.like {
-      left: 20px;
-      color: #2ed573;
-      border-color: #2ed573;
-    }
-
-    /* No more cards */
-    .empty-deck {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      gap: 12px;
-      text-align: center;
-      color: #555;
-      border-radius: 16px;
-      background: #12121a;
-      border: 2px dashed #2a2a3a;
-    }
-    .empty-deck .icon { font-size: 3rem; }
-    .empty-deck p { font-size: 1rem; color: #666; }
-    .empty-deck .sub { font-size: 0.8rem; color: #444; }
-
-    /* Bottom buttons */
-    .actions {
-      width: 100%;
-      max-width: 420px;
-      padding: 20px;
-      display: flex;
-      justify-content: center;
-      gap: 40px;
-      z-index: 10;
-    }
-    .actions button {
-      border: none;
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      font-size: 1.5rem;
-      cursor: pointer;
-      transition: all 0.15s;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-    }
-    .actions button:active { transform: scale(0.9); }
-    .btn-nope {
-      background: #2a1a1a;
-      color: #ff4757;
-    }
-    .btn-nope:hover { background: #3a1a1a; }
-    .btn-like {
-      background: #1a2a1a;
-      color: #2ed573;
-    }
-    .btn-like:hover { background: #1a3a1a; }
-
-    /* Liked bar */
-    .liked-section {
-      width: 100%;
-      max-width: 420px;
-      padding: 0 16px 16px;
-      z-index: 10;
-    }
-    .liked-toggle {
-      background: none;
-      border: 1px solid rgba(255,255,255,0.1);
-      color: #999;
-      padding: 8px 16px;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      cursor: pointer;
-      width: 100%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      transition: all 0.15s;
-    }
-    .liked-toggle:hover {
-      border-color: rgba(255,255,255,0.2);
-      color: #fff;
-    }
-    .liked-grid {
-      display: none;
-      gap: 8px;
-      margin-top: 8px;
-      padding: 12px;
-      background: rgba(255,255,255,0.03);
-      border-radius: 12px;
-      max-height: 140px;
-      overflow-y: auto;
-    }
-    .liked-grid.open { display: flex; flex-wrap: wrap; }
-    .liked-grid .chip {
-      background: rgba(45, 213, 122, 0.15);
-      border: 1px solid rgba(45, 213, 122, 0.2);
-      border-radius: 20px;
-      padding: 4px 12px;
-      font-size: 0.75rem;
-      color: #2ed573;
-    }
-
-    /* Counter badge on card */
+    .card .stamp.nope { right: 20px; color: #ff4757; border-color: #ff4757; }
+    .card .stamp.like { left: 20px; color: #2ed573; border-color: #2ed573; }
     .card .counter {
       position: absolute;
       top: 16px;
@@ -252,20 +147,213 @@
       z-index: 2;
     }
 
-    /* Loading */
+    /* Empty deck */
+    .empty-deck {
+      width: 100%; height: 100%;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 12px; text-align: center;
+      color: #555; border-radius: 16px;
+      background: #12121a; border: 2px dashed #2a2a3a;
+    }
+    .empty-deck .icon { font-size: 3rem; }
+    .empty-deck p { font-size: 1rem; color: #666; }
+    .empty-deck .sub { font-size: 0.8rem; color: #444; }
+
+    /* Bottom buttons */
+    .actions {
+      width: 100%; max-width: 420px;
+      padding: 20px; display: flex;
+      justify-content: center; gap: 40px; z-index: 10;
+    }
+    .actions button {
+      border: none; width: 60px; height: 60px; border-radius: 50%;
+      font-size: 1.5rem; cursor: pointer; transition: all 0.15s;
+      display: flex; align-items: center; justify-content: center;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+    .actions button:active { transform: scale(0.9); }
+    .btn-nope { background: #2a1a1a; color: #ff4757; }
+    .btn-nope:hover { background: #3a1a1a; }
+    .btn-like { background: #1a2a1a; color: #2ed573; }
+    .btn-like:hover { background: #1a3a1a; }
+
+    /* Liked bar */
+    .liked-section {
+      width: 100%; max-width: 420px;
+      padding: 0 16px 16px; z-index: 10;
+    }
+    .liked-toggle {
+      background: none; border: 1px solid rgba(255,255,255,0.1);
+      color: #999; padding: 8px 16px; border-radius: 20px;
+      font-size: 0.8rem; cursor: pointer; width: 100%;
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+      transition: all 0.15s;
+    }
+    .liked-toggle:hover { border-color: rgba(255,255,255,0.2); color: #fff; }
+    .liked-grid {
+      display: none; gap: 8px; margin-top: 8px; padding: 12px;
+      background: rgba(255,255,255,0.03); border-radius: 12px;
+      max-height: 140px; overflow-y: auto;
+    }
+    .liked-grid.open { display: flex; flex-wrap: wrap; }
+    .liked-grid .chip {
+      background: rgba(45,213,122,0.15);
+      border: 1px solid rgba(45,213,122,0.2);
+      border-radius: 20px; padding: 4px 12px;
+      font-size: 0.75rem; color: #2ed573;
+    }
+
     .loading-state {
+      display: flex; align-items: center; justify-content: center;
+      height: 100%; color: #555;
+    }
+
+    /* ===== AUTH SCREEN ===== */
+    .auth-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      background: #0a0a0a;
       display: flex;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
-      height: 100%;
-      color: #555;
+      padding: 24px;
+    }
+    .auth-screen.hidden { display: none; }
+
+    .auth-card {
+      width: 100%;
+      max-width: 360px;
+      background: #16161e;
+      border: 1px solid #2a2a3a;
+      border-radius: 20px;
+      padding: 36px 28px 28px;
+      text-align: center;
+    }
+    .auth-card .logo {
+      font-size: 2rem;
+      margin-bottom: 4px;
+    }
+    .auth-card h2 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #ff6b6b, #ffa94d);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .auth-card .tagline {
+      color: #666;
+      font-size: 0.85rem;
+      margin-top: 4px;
+      margin-bottom: 24px;
+    }
+    .auth-card .form-group {
+      margin-bottom: 14px;
+      text-align: left;
+    }
+    .auth-card label {
+      display: block;
+      font-size: 0.75rem;
+      color: #888;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .auth-card input {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 10px;
+      border: 1px solid #2a2a3a;
+      background: #0f0f15;
+      color: #fff;
+      font-size: 0.95rem;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .auth-card input:focus { border-color: #ff6b6b; }
+    .auth-card input::placeholder { color: #444; }
+
+    .auth-card .btn-auth {
+      width: 100%;
+      padding: 13px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #ff6b6b, #ffa94d);
+      color: #fff;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: opacity 0.15s;
+      margin-top: 6px;
+    }
+    .auth-card .btn-auth:disabled { opacity: 0.4; cursor: not-allowed; }
+    .auth-card .btn-auth:not(:disabled):hover { opacity: 0.9; }
+
+    .auth-card .toggle-link {
+      margin-top: 16px;
+      font-size: 0.85rem;
+      color: #666;
+    }
+    .auth-card .toggle-link span {
+      color: #ff8a6b;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .auth-card .toggle-link span:hover { text-decoration: underline; }
+
+    .auth-card .auth-error {
+      color: #ff4757;
+      font-size: 0.8rem;
+      margin-top: 10px;
+      min-height: 20px;
+    }
+    .auth-card .auth-ok {
+      color: #2ed573;
+      font-size: 0.8rem;
+      margin-top: 10px;
+      min-height: 20px;
     }
   </style>
 </head>
 <body>
+  <!-- AUTH SCREEN -->
+  <div class="auth-screen" id="auth-screen">
+    <div class="auth-card">
+      <div class="logo">🏎️</div>
+      <h2>CarMatch</h2>
+      <p class="tagline">Swipe through the world's greatest cars</p>
+
+      <div class="form-group">
+        <label for="auth-email">Email</label>
+        <input type="email" id="auth-email" placeholder="you@example.com" autocomplete="email">
+      </div>
+      <div class="form-group">
+        <label for="auth-password">Password</label>
+        <input type="password" id="auth-password" placeholder="At least 8 characters" autocomplete="current-password">
+      </div>
+
+      <button class="btn-auth" id="btn-auth">Sign In</button>
+
+      <div class="auth-error" id="auth-error"></div>
+      <div class="auth-ok" id="auth-ok"></div>
+
+      <div class="toggle-link">
+        <span id="auth-toggle-text">No account? <span id="auth-toggle-action">Sign Up</span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- MAIN APP -->
   <div class="header">
     <h1>CarMatch</h1>
-    <span class="badge" id="counter-badge">0 liked</span>
+    <div style="display:flex;align-items:center;gap:8px">
+      <span class="user-email" id="user-email"></span>
+      <span class="badge" id="counter-badge">0 liked</span>
+      <button class="btn-signout" id="btn-signout" style="display:none">Sign out</button>
+    </div>
   </div>
 
   <div class="deck" id="deck">
@@ -286,22 +374,24 @@
 
   <script>
     // --- Config ---
-    const API_BASE = 'https://data.sopranos.dev/v1/proj_n6cdkmuxl2kom0ovcrtbglbo/db';
-    const API_KEY = 'eb_sk_27jusfgzsw8des8jpdqqeml5uztfokw11nz7h6j3';
-    const CAR_TABLE = '/cars';
+    const AUTH_BASE = 'https://data.sopranos.dev/v1/proj_n6cdkmuxl2kom0ovcrtbglbo/auth';
+    const DB_BASE = 'https://data.sopranos.dev/v1/proj_n6cdkmuxl2kom0ovcrtbglbo/db';
 
-    const headers = {
-      'Authorization': `Bearer ${API_KEY}`,
-      'Content-Type': 'application/json',
-    };
+    // --- Auth state ---
+    let authToken = localStorage.getItem('carmatch_token');
+    let authEmail = localStorage.getItem('carmatch_email') || '';
+    let isSignup = false;
 
-    // --- State ---
-    let cards = [];
-    let currentIndex = 0;
-    let likedCars = JSON.parse(localStorage.getItem('carmatch_likes') || '[]');
-    let isDragging = false;
-    let startX = 0, startY = 0, currentX = 0, currentY = 0;
-    let isAnimating = false;
+    // --- DOM refs ---
+    const authScreen = document.getElementById('auth-screen');
+    const authEmailEl = document.getElementById('auth-email');
+    const authPassEl = document.getElementById('auth-password');
+    const btnAuth = document.getElementById('btn-auth');
+    const authError = document.getElementById('auth-error');
+    const authOk = document.getElementById('auth-ok');
+    const authToggleAction = document.getElementById('auth-toggle-action');
+    const userEmailEl = document.getElementById('user-email');
+    const btnSignout = document.getElementById('btn-signout');
 
     const container = document.getElementById('card-container');
     const loading = document.getElementById('loading');
@@ -311,10 +401,37 @@
     const likedCount = document.getElementById('liked-count');
     const counterBadge = document.getElementById('counter-badge');
 
-    // --- Helpers ---
-    async function api(method, path, body) {
-      const url = API_BASE + path;
-      const opts = { method, headers };
+    // --- State ---
+    let cards = [];
+    let currentIndex = 0;
+    let likedCars = JSON.parse(localStorage.getItem('carmatch_likes') || '[]');
+    let isDragging = false;
+    let startX = 0, startY = 0, currentX = 0, currentY = 0;
+    let isAnimating = false;
+
+    // --- Auth helpers ---
+    function getHeaders() {
+      return {
+        'Authorization': `Bearer ${authToken}`,
+        'Content-Type': 'application/json',
+      };
+    }
+
+    async function authApi(method, path, body) {
+      const url = AUTH_BASE + path;
+      const opts = { method, headers: { 'Content-Type': 'application/json' } };
+      if (body) opts.body = JSON.stringify(body);
+      const res = await fetch(url, opts);
+      const text = await res.text();
+      if (!text) throw new Error('Empty response');
+      const json = JSON.parse(text);
+      if (json.error) throw new Error(json.error.message || 'Auth error');
+      return json;
+    }
+
+    async function dbApi(method, path, body) {
+      const url = DB_BASE + path;
+      const opts = { method, headers: getHeaders() };
       if (body) opts.body = JSON.stringify(body);
       const res = await fetch(url, opts);
       const text = await res.text();
@@ -324,18 +441,88 @@
       return json;
     }
 
-    function updateUI() {
-      likedCount.textContent = likedCars.length;
-      counterBadge.textContent = `${likedCars.length} liked`;
-      renderLikedGrid();
+    function showAuthError(msg) {
+      authError.textContent = msg;
+      authOk.textContent = '';
+    }
+    function showAuthOk(msg) {
+      authOk.textContent = msg;
+      authError.textContent = '';
+    }
+    function clearAuthMessages() {
+      authError.textContent = '';
+      authOk.textContent = '';
     }
 
-    function renderLikedGrid() {
-      if (likedGrid.classList.contains('open')) {
-        likedGrid.innerHTML = likedCars.map(c =>
-          `<span class="chip">${c.make} ${c.model}</span>`
-        ).join('');
+    // --- Auth actions ---
+    async function handleAuth() {
+      const email = authEmailEl.value.trim();
+      const password = authPassEl.value;
+      if (!email) { showAuthError('Enter your email'); return; }
+      if (password.length < 8) { showAuthError('Password must be at least 8 characters'); return; }
+
+      btnAuth.disabled = true;
+      btnAuth.textContent = isSignup ? 'Creating account...' : 'Signing in...';
+      clearAuthMessages();
+
+      try {
+        const endpoint = isSignup ? '/signup' : '/login';
+        const data = await authApi('POST', endpoint, { email, password });
+        const token = data.token;
+        if (!token) throw new Error('No token received');
+
+        authToken = token;
+        authEmail = email;
+        localStorage.setItem('carmatch_token', token);
+        localStorage.setItem('carmatch_email', email);
+
+        showAuthOk(isSignup ? 'Account created! Loading cars...' : 'Signed in! Loading cars...');
+        setTimeout(() => {
+          authScreen.classList.add('hidden');
+          userEmailEl.textContent = email;
+          btnSignout.style.display = 'block';
+          loadCars();
+        }, 400);
+      } catch (e) {
+        showAuthError(e.message);
       }
+
+      btnAuth.disabled = false;
+      btnAuth.textContent = isSignup ? 'Create Account' : 'Sign In';
+    }
+
+    function signOut() {
+      authToken = null;
+      authEmail = '';
+      localStorage.removeItem('carmatch_token');
+      localStorage.removeItem('carmatch_email');
+      userEmailEl.textContent = '';
+      btnSignout.style.display = 'none';
+      authScreen.classList.remove('hidden');
+      authEmailEl.value = '';
+      authPassEl.value = '';
+      clearAuthMessages();
+      isSignup = false;
+      btnAuth.textContent = 'Sign In';
+      authToggleAction.textContent = 'Sign Up';
+      authEmailEl.focus();
+    }
+
+    function toggleAuthMode() {
+      isSignup = !isSignup;
+      btnAuth.textContent = isSignup ? 'Create Account' : 'Sign In';
+      authToggleAction.textContent = isSignup ? 'Sign In' : 'Sign Up';
+      clearAuthMessages();
+    }
+
+    // --- Check existing session ---
+    if (authToken) {
+      // Try to use existing token - validate by making a request
+      authScreen.classList.add('hidden');
+      userEmailEl.textContent = authEmail;
+      btnSignout.style.display = 'block';
+    } else {
+      authScreen.classList.remove('hidden');
     }
 
     // --- Card rendering ---
@@ -344,7 +531,6 @@
       div.className = 'card';
       div.dataset.index = index;
 
-      const remaining = cards.length - currentIndex;
       div.innerHTML = `
         <div class="stamp nope" id="stamp-nope">NOPE</div>
         <div class="stamp like" id="stamp-like">LIKE</div>
@@ -356,7 +542,6 @@
         </div>
       `;
 
-      // Stack cards slightly
       const offset = index - currentIndex;
       if (offset === 0) {
         div.style.zIndex = 10;
@@ -368,7 +553,6 @@
         div.style.display = 'none';
       }
 
-      // Touch/mouse drag handlers (only for top card)
       if (offset === 0) {
         div.addEventListener('pointerdown', onPointerDown);
         div.addEventListener('pointermove', onPointerMove);
@@ -389,8 +573,7 @@
       startY = e.clientY;
       currentX = 0;
       currentY = 0;
-      const card = e.currentTarget;
-      card.style.transition = 'none';
+      e.currentTarget.style.transition = 'none';
     }
 
     function onPointerMove(e) {
@@ -399,14 +582,10 @@
       currentX = e.clientX - startX;
       currentY = e.clientY - startY;
       const card = e.currentTarget;
-      const rotate = Math.max(-25, Math.min(25, currentX * 0.1));
-      card.style.transform = `translate(${currentX}px, ${currentY}px) rotate(${rotate}deg)`;
+      card.style.transform = `translate(${currentX}px, ${currentY}px) rotate(${Math.max(-25, Math.min(25, currentX * 0.1))}deg)`;
 
-      // Show stamps
-      const stampNope = card.querySelector('#stamp-nope');
-      const stampLike = card.querySelector('#stamp-like');
-      stampNope.style.opacity = currentX < -30 ? Math.min(1, Math.abs(currentX) / 150) : 0;
-      stampLike.style.opacity = currentX > 30 ? Math.min(1, currentX / 150) : 0;
+      card.querySelector('#stamp-nope').style.opacity = currentX < -30 ? Math.min(1, Math.abs(currentX) / 150) : 0;
+      card.querySelector('#stamp-like').style.opacity = currentX > 30 ? Math.min(1, currentX / 150) : 0;
     }
 
     function onPointerUp(e) {
@@ -416,10 +595,9 @@
 
       if (Math.abs(currentX) > SWIPE_THRESHOLD) {
         const direction = currentX > 0 ? 'right' : 'left';
-        const flyX = direction === 'right' ? 800 : -800;
         isAnimating = true;
         card.style.transition = 'transform 0.4s ease';
-        card.style.transform = `translate(${flyX}px, ${currentY + 100}px) rotate(${direction === 'right' ? 25 : -25}deg)`;
+        card.style.transform = `translate(${direction === 'right' ? 800 : -800}px, ${currentY + 100}px) rotate(${direction === 'right' ? 25 : -25}deg)`;
         card.style.pointerEvents = 'none';
 
         setTimeout(() => {
@@ -430,17 +608,13 @@
           renderCards();
         }, 400);
       } else {
-        // Snap back
         card.style.transition = 'transform 0.3s ease';
         card.style.transform = '';
-        const stampNope = card.querySelector('#stamp-nope');
-        const stampLike = card.querySelector('#stamp-like');
-        stampNope.style.opacity = 0;
-        stampLike.style.opacity = 0;
+        card.querySelector('#stamp-nope').style.opacity = 0;
+        card.querySelector('#stamp-like').style.opacity = 0;
       }
     }
 
-    // --- Actions ---
     function likeCar() {
       const car = cards[currentIndex];
       if (!car) return;
@@ -452,9 +626,20 @@
       updateUI();
     }
 
-    function skipCar() {
-      currentIndex++;
-      updateUI();
+    function skipCar() { currentIndex++; updateUI(); }
+
+    function updateUI() {
+      likedCount.textContent = likedCars.length;
+      counterBadge.textContent = `${likedCars.length} liked`;
+      renderLikedGrid();
+    }
+
+    function renderLikedGrid() {
+      if (likedGrid.classList.contains('open')) {
+        likedGrid.innerHTML = likedCars.map(c =>
+          `<span class="chip">${c.make} ${c.model}</span>`
+        ).join('');
+      }
     }
 
     function renderCards() {
@@ -470,7 +655,6 @@
           </div>
         `;
         actions.style.display = 'flex';
-        // Disable buttons
         document.getElementById('btn-nope').style.opacity = '0.3';
         document.getElementById('btn-like').style.opacity = '0.3';
         return;
@@ -480,19 +664,16 @@
       document.getElementById('btn-nope').style.opacity = '1';
       document.getElementById('btn-like').style.opacity = '1';
 
-      // Render next few cards (stack effect)
       for (let i = currentIndex; i < Math.min(currentIndex + 3, cards.length); i++) {
-        const cardEl = buildCard(cards[i], i);
-        container.appendChild(cardEl);
+        container.appendChild(buildCard(cards[i], i));
       }
     }
 
-    // --- Load data ---
     async function loadCars() {
       try {
         loading.textContent = 'Loading cars...';
-        const res = await api('GET', CAR_TABLE + '?limit=50');
-        cards = (res.data || []).sort(() => Math.random() - 0.5); // shuffle
+        const res = await dbApi('GET', '/cars?limit=50');
+        cards = (res.data || []).sort(() => Math.random() - 0.5);
         if (cards.length === 0) {
           loading.textContent = 'No cars in the stable!';
           return;
@@ -502,10 +683,19 @@
         updateUI();
       } catch (e) {
         loading.textContent = 'Failed to load: ' + e.message;
+        // If token expired, sign out
+        if (e.message.includes('unauthorized') || e.message.includes('expired')) {
+          signOut();
+        }
       }
     }
 
-    // --- Button handlers ---
+    // --- Event listeners ---
+    btnAuth.addEventListener('click', handleAuth);
+    authPassEl.addEventListener('keydown', e => { if (e.key === 'Enter') handleAuth(); });
+    authToggleAction.addEventListener('click', toggleAuthMode);
+    btnSignout.addEventListener('click', signOut);
+
     document.getElementById('btn-nope').addEventListener('click', () => {
       if (isAnimating || currentIndex >= cards.length) return;
       const topCard = container.querySelector('.card');
@@ -514,12 +704,7 @@
       topCard.style.transition = 'transform 0.35s ease';
       topCard.style.transform = 'translate(-500px, 80px) rotate(-20deg)';
       topCard.style.pointerEvents = 'none';
-      setTimeout(() => {
-        skipCar();
-        topCard.remove();
-        isAnimating = false;
-        renderCards();
-      }, 350);
+      setTimeout(() => { skipCar(); topCard.remove(); isAnimating = false; renderCards(); }, 350);
     });
 
     document.getElementById('btn-like').addEventListener('click', () => {
@@ -530,12 +715,7 @@
       topCard.style.transition = 'transform 0.35s ease';
       topCard.style.transform = 'translate(500px, 80px) rotate(20deg)';
       topCard.style.pointerEvents = 'none';
-      setTimeout(() => {
-        likeCar();
-        topCard.remove();
-        isAnimating = false;
-        renderCards();
-      }, 350);
+      setTimeout(() => { likeCar(); topCard.remove(); isAnimating = false; renderCards(); }, 350);
     });
 
     likedToggle.addEventListener('click', () => {
@@ -544,7 +724,7 @@
     });
 
     // --- Boot ---
-    loadCars();
+    if (authToken) loadCars();
   </script>
 </body>
 </html>

@@ -10,339 +10,125 @@
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background: #0a0a0a;
       color: #fff;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100dvh;
-      overflow: hidden;
-      user-select: none;
-      -webkit-user-select: none;
+      display: flex; flex-direction: column;
+      align-items: center; min-height: 100dvh;
+      overflow: hidden; user-select: none; -webkit-user-select: none;
     }
-
-    /* Header */
     .header {
-      width: 100%;
-      max-width: 420px;
-      padding: 12px 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      z-index: 10;
+      width: 100%; max-width: 420px; padding: 12px 20px;
+      display: flex; align-items: center; justify-content: space-between; z-index: 10;
     }
     .header h1 {
-      font-size: 1.3rem;
-      font-weight: 700;
+      font-size: 1.3rem; font-weight: 700;
       background: linear-gradient(135deg, #ff6b6b, #ffa94d);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
     }
-    .header .badge {
-      background: rgba(255,255,255,0.1);
-      border-radius: 20px;
-      padding: 4px 12px;
-      font-size: 0.75rem;
-      color: #999;
-      border: 1px solid rgba(255,255,255,0.08);
+    .btn-signout {
+      background: none; border: 1px solid rgba(255,255,255,0.15); color: #888;
+      padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; cursor: pointer;
     }
-    .header .btn-signout {
-      background: none;
-      border: 1px solid rgba(255,255,255,0.15);
-      color: #888;
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 0.7rem;
-      cursor: pointer;
-      transition: all 0.15s;
-    }
-    .header .btn-signout:hover { border-color: #ff4757; color: #ff4757; }
-    .header .user-email {
-      font-size: 0.7rem;
-      color: #555;
-      max-width: 120px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
+    .btn-signout:hover { border-color: #ff4757; color: #ff4757; }
+    .user-email { font-size: 0.7rem; color: #555; max-width: 120px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .badge { background: rgba(255,255,255,0.1); border-radius: 20px; padding: 4px 10px; font-size: 0.7rem; color: #999; border: 1px solid rgba(255,255,255,0.08); }
 
-    /* Card area */
-    .deck {
-      flex: 1;
-      width: 100%;
-      max-width: 420px;
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0 16px;
-    }
-    .card-container {
-      width: 100%;
-      height: 70vh;
-      max-height: 600px;
-      position: relative;
-    }
-    .card {
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      border-radius: 16px;
-      overflow: hidden;
-      background: #1a1a2e;
-      box-shadow: 0 10px 40px rgba(0,0,0,0.5);
-      transition: transform 0.3s ease;
-      cursor: grab;
-      touch-action: none;
-    }
+    .deck { flex: 1; width: 100%; max-width: 420px; position: relative; display: flex; align-items: center; justify-content: center; padding: 0 16px; }
+    .card-container { width: 100%; height: 70vh; max-height: 600px; position: relative; }
+    .card { position: absolute; width: 100%; height: 100%; border-radius: 16px; overflow: hidden; background: #1a1a2e; box-shadow: 0 10px 40px rgba(0,0,0,0.5); transition: transform 0.3s ease; cursor: grab; touch-action: none; }
     .card:active { cursor: grabbing; }
-    .card .car-img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      pointer-events: none;
-    }
-    .card .overlay {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      right: 0;
-      padding: 80px 20px 24px;
-      background: linear-gradient(transparent, rgba(0,0,0,0.85));
-    }
-    .card .name {
-      font-size: 1.5rem;
-      font-weight: 700;
-      letter-spacing: -0.5px;
-    }
+    .card .car-img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+    .card .overlay { position: absolute; bottom: 0; left: 0; right: 0; padding: 80px 20px 24px; background: linear-gradient(transparent, rgba(0,0,0,0.85)); }
+    .card .name { font-size: 1.5rem; font-weight: 700; letter-spacing: -0.5px; }
     .card .name span { font-weight: 400; color: #aaa; font-size: 1.2rem; }
     .card .bio { font-size: 0.85rem; color: #ccc; margin-top: 6px; line-height: 1.4; }
-
-    /* Swipe indicators */
-    .card .stamp {
-      position: absolute;
-      top: 40px;
-      font-size: 2.5rem;
-      font-weight: 800;
-      padding: 10px 20px;
-      border: 4px solid;
-      border-radius: 12px;
-      opacity: 0;
-      transform: rotate(-15deg);
-      pointer-events: none;
-      transition: opacity 0.15s;
-      z-index: 2;
-    }
+    .card .stamp { position: absolute; top: 40px; font-size: 2.5rem; font-weight: 800; padding: 10px 20px; border: 4px solid; border-radius: 12px; opacity: 0; transform: rotate(-15deg); pointer-events: none; transition: opacity 0.15s; z-index: 2; }
     .card .stamp.nope { right: 20px; color: #ff4757; border-color: #ff4757; }
     .card .stamp.like { left: 20px; color: #2ed573; border-color: #2ed573; }
-    .card .counter {
-      position: absolute;
-      top: 16px;
-      right: 16px;
-      background: rgba(0,0,0,0.6);
-      backdrop-filter: blur(8px);
-      padding: 4px 10px;
-      border-radius: 20px;
-      font-size: 0.7rem;
-      color: #888;
-      z-index: 2;
-    }
+    .card .counter { position: absolute; top: 16px; right: 16px; background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); padding: 4px 10px; border-radius: 20px; font-size: 0.7rem; color: #888; z-index: 2; }
 
-    /* Empty deck */
-    .empty-deck {
-      width: 100%; height: 100%;
-      display: flex; flex-direction: column;
-      align-items: center; justify-content: center;
-      gap: 12px; text-align: center;
-      color: #555; border-radius: 16px;
-      background: #12121a; border: 2px dashed #2a2a3a;
-    }
+    .empty-deck { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; text-align: center; color: #555; border-radius: 16px; background: #12121a; border: 2px dashed #2a2a3a; }
     .empty-deck .icon { font-size: 3rem; }
     .empty-deck p { font-size: 1rem; color: #666; }
     .empty-deck .sub { font-size: 0.8rem; color: #444; }
 
-    /* Bottom buttons */
-    .actions {
-      width: 100%; max-width: 420px;
-      padding: 20px; display: flex;
-      justify-content: center; gap: 40px; z-index: 10;
-    }
-    .actions button {
-      border: none; width: 60px; height: 60px; border-radius: 50%;
-      font-size: 1.5rem; cursor: pointer; transition: all 0.15s;
-      display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-    }
+    .actions { width: 100%; max-width: 420px; padding: 20px; display: flex; justify-content: center; gap: 40px; z-index: 10; }
+    .actions button { border: none; width: 60px; height: 60px; border-radius: 50%; font-size: 1.5rem; cursor: pointer; transition: all 0.15s; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 15px rgba(0,0,0,0.3); }
     .actions button:active { transform: scale(0.9); }
     .btn-nope { background: #2a1a1a; color: #ff4757; }
     .btn-nope:hover { background: #3a1a1a; }
     .btn-like { background: #1a2a1a; color: #2ed573; }
     .btn-like:hover { background: #1a3a1a; }
 
-    /* Liked bar */
-    .liked-section {
-      width: 100%; max-width: 420px;
-      padding: 0 16px 16px; z-index: 10;
-    }
-    .liked-toggle {
-      background: none; border: 1px solid rgba(255,255,255,0.1);
-      color: #999; padding: 8px 16px; border-radius: 20px;
-      font-size: 0.8rem; cursor: pointer; width: 100%;
-      display: flex; align-items: center; justify-content: center; gap: 6px;
-      transition: all 0.15s;
-    }
+    .liked-section { width: 100%; max-width: 420px; padding: 0 16px 16px; z-index: 10; }
+    .liked-toggle { background: none; border: 1px solid rgba(255,255,255,0.1); color: #999; padding: 8px 16px; border-radius: 20px; font-size: 0.8rem; cursor: pointer; width: 100%; display: flex; align-items: center; justify-content: center; gap: 6px; }
     .liked-toggle:hover { border-color: rgba(255,255,255,0.2); color: #fff; }
-    .liked-grid {
-      display: none; gap: 8px; margin-top: 8px; padding: 12px;
-      background: rgba(255,255,255,0.03); border-radius: 12px;
-      max-height: 140px; overflow-y: auto;
-    }
+    .liked-grid { display: none; gap: 8px; margin-top: 8px; padding: 12px; background: rgba(255,255,255,0.03); border-radius: 12px; max-height: 140px; overflow-y: auto; }
     .liked-grid.open { display: flex; flex-wrap: wrap; }
-    .liked-grid .chip {
-      background: rgba(45,213,122,0.15);
-      border: 1px solid rgba(45,213,122,0.2);
-      border-radius: 20px; padding: 4px 12px;
-      font-size: 0.75rem; color: #2ed573;
-    }
+    .liked-grid .chip { background: rgba(45,213,122,0.15); border: 1px solid rgba(45,213,122,0.2); border-radius: 20px; padding: 4px 12px; font-size: 0.75rem; color: #2ed573; }
 
-    .loading-state {
-      display: flex; align-items: center; justify-content: center;
-      height: 100%; color: #555;
-    }
+    .loading-state { display: flex; align-items: center; justify-content: center; height: 100%; color: #555; }
 
-    /* ===== AUTH SCREEN ===== */
-    .auth-screen {
-      position: fixed;
-      inset: 0;
-      z-index: 100;
-      background: #0a0a0a;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-    }
+    /* ===== Auth screen ===== */
+    .auth-screen { position: fixed; inset: 0; z-index: 100; background: #0a0a0a; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 24px; }
     .auth-screen.hidden { display: none; }
-
-    .auth-card {
-      width: 100%;
-      max-width: 360px;
-      background: #16161e;
-      border: 1px solid #2a2a3a;
-      border-radius: 20px;
-      padding: 36px 28px 28px;
-      text-align: center;
-    }
-    .auth-card .logo {
-      font-size: 2rem;
-      margin-bottom: 4px;
-    }
-    .auth-card h2 {
-      font-size: 1.4rem;
-      font-weight: 700;
-      background: linear-gradient(135deg, #ff6b6b, #ffa94d);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .auth-card .tagline {
-      color: #666;
-      font-size: 0.85rem;
-      margin-top: 4px;
-      margin-bottom: 24px;
-    }
-    .auth-card .form-group {
-      margin-bottom: 14px;
-      text-align: left;
-    }
-    .auth-card label {
-      display: block;
-      font-size: 0.75rem;
-      color: #888;
-      margin-bottom: 4px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-    .auth-card input {
-      width: 100%;
-      padding: 12px 14px;
-      border-radius: 10px;
-      border: 1px solid #2a2a3a;
-      background: #0f0f15;
-      color: #fff;
-      font-size: 0.95rem;
-      outline: none;
-      transition: border-color 0.15s;
-    }
+    .auth-card { width: 100%; max-width: 360px; background: #16161e; border: 1px solid #2a2a3a; border-radius: 20px; padding: 36px 28px 28px; text-align: center; }
+    .auth-card .logo { font-size: 2.5rem; margin-bottom: 4px; }
+    .auth-card h2 { font-size: 1.4rem; font-weight: 700; background: linear-gradient(135deg, #ff6b6b, #ffa94d); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+    .auth-card .tagline { color: #666; font-size: 0.85rem; margin-top: 4px; margin-bottom: 24px; }
+    .auth-card .form-group { margin-bottom: 14px; text-align: left; }
+    .auth-card label { display: block; font-size: 0.75rem; color: #888; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .auth-card input { width: 100%; padding: 12px 14px; border-radius: 10px; border: 1px solid #2a2a3a; background: #0f0f15; color: #fff; font-size: 0.95rem; outline: none; }
     .auth-card input:focus { border-color: #ff6b6b; }
     .auth-card input::placeholder { color: #444; }
-
-    .auth-card .btn-auth {
-      width: 100%;
-      padding: 13px;
-      border: none;
-      border-radius: 10px;
-      background: linear-gradient(135deg, #ff6b6b, #ffa94d);
-      color: #fff;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: opacity 0.15s;
-      margin-top: 6px;
-    }
+    .auth-card .btn-auth { width: 100%; padding: 13px; border: none; border-radius: 10px; background: linear-gradient(135deg, #ff6b6b, #ffa94d); color: #fff; font-size: 1rem; font-weight: 600; cursor: pointer; margin-top: 6px; }
     .auth-card .btn-auth:disabled { opacity: 0.4; cursor: not-allowed; }
     .auth-card .btn-auth:not(:disabled):hover { opacity: 0.9; }
+    .auth-card .auth-error { color: #ff4757; font-size: 0.8rem; margin-top: 10px; min-height: 20px; }
+    .auth-card .auth-info { color: #ffa94d; font-size: 0.8rem; margin-top: 10px; min-height: 20px; }
 
-    .auth-card .toggle-link {
-      margin-top: 16px;
-      font-size: 0.85rem;
-      color: #666;
-    }
-    .auth-card .toggle-link span {
-      color: #ff8a6b;
-      cursor: pointer;
-      font-weight: 600;
-    }
-    .auth-card .toggle-link span:hover { text-decoration: underline; }
+    .code-inputs { display: flex; gap: 8px; justify-content: center; margin: 16px 0; }
+    .code-inputs input { width: 48px; height: 56px; text-align: center; font-size: 1.5rem; font-weight: 700; border-radius: 12px; border: 1px solid #2a2a3a; background: #0f0f15; color: #fff; outline: none; }
+    .code-inputs input:focus { border-color: #ff6b6b; }
 
-    .auth-card .auth-error {
-      color: #ff4757;
-      font-size: 0.8rem;
-      margin-top: 10px;
-      min-height: 20px;
-    }
-    .auth-card .auth-ok {
-      color: #2ed573;
-      font-size: 0.8rem;
-      margin-top: 10px;
-      min-height: 20px;
-    }
+    .email-sent-note { font-size: 0.8rem; color: #666; margin: 8px 0; }
+    .back-link { color: #666; font-size: 0.8rem; cursor: pointer; display: inline-block; margin-top: 12px; }
+    .back-link:hover { color: #999; }
   </style>
 </head>
 <body>
-  <!-- AUTH SCREEN -->
+  <!-- AUTH SCREEN (OTP flow) -->
   <div class="auth-screen" id="auth-screen">
-    <div class="auth-card">
+    <div class="auth-card" id="step-email">
       <div class="logo">🏎️</div>
       <h2>CarMatch</h2>
       <p class="tagline">Swipe through the world's greatest cars</p>
 
       <div class="form-group">
-        <label for="auth-email">Email</label>
+        <label>Email</label>
         <input type="email" id="auth-email" placeholder="you@example.com" autocomplete="email">
       </div>
-      <div class="form-group">
-        <label for="auth-password">Password</label>
-        <input type="password" id="auth-password" placeholder="At least 8 characters" autocomplete="current-password">
-      </div>
-
-      <button class="btn-auth" id="btn-auth">Sign In</button>
-
+      <button class="btn-auth" id="btn-send-code">Send Code</button>
       <div class="auth-error" id="auth-error"></div>
-      <div class="auth-ok" id="auth-ok"></div>
+      <div class="auth-info" id="auth-info"></div>
+    </div>
 
-      <div class="toggle-link">
-        <span id="auth-toggle-text">No account? <span id="auth-toggle-action">Sign Up</span></span>
+    <div class="auth-card" id="step-code" style="display:none">
+      <div class="logo">✉️</div>
+      <h2>Check your email</h2>
+      <p class="tagline" id="code-sent-to">We sent a code to <span id="code-email-display"></span></p>
+
+      <div class="code-inputs">
+        <input type="text" maxlength="1" class="code-digit" data-idx="0">
+        <input type="text" maxlength="1" class="code-digit" data-idx="1">
+        <input type="text" maxlength="1" class="code-digit" data-idx="2">
+        <input type="text" maxlength="1" class="code-digit" data-idx="3">
+        <input type="text" maxlength="1" class="code-digit" data-idx="4">
+        <input type="text" maxlength="1" class="code-digit" data-idx="5">
       </div>
+
+      <button class="btn-auth" id="btn-verify-code">Verify</button>
+      <div class="auth-error" id="code-error"></div>
+      <div class="auth-info" id="code-info"></div>
+      <span class="back-link" id="back-to-email">← Use a different email</span>
     </div>
   </div>
 
@@ -356,7 +142,7 @@
     </div>
   </div>
 
-  <div class="deck" id="deck">
+  <div class="deck">
     <div class="card-container" id="card-container">
       <div class="loading-state" id="loading">Loading cars...</div>
     </div>
@@ -373,26 +159,33 @@
   </div>
 
   <script>
-    // --- Config ---
-    const AUTH_BASE = 'https://data.sopranos.dev/v1/proj_n6cdkmuxl2kom0ovcrtbglbo/auth';
-    const DB_BASE = 'https://data.sopranos.dev/v1/proj_n6cdkmuxl2kom0ovcrtbglbo/db';
+    const API = '';  // same origin
 
-    // --- Auth state ---
-    let authToken = localStorage.getItem('carmatch_token');
-    let authEmail = localStorage.getItem('carmatch_email') || '';
-    let isSignup = false;
+    let sessionToken = localStorage.getItem('carmatch_session');
+    let userEmail = localStorage.getItem('carmatch_email') || '';
+    let stepEmail = '';
+    let cards = [];
+    let currentIndex = 0;
+    let likedCars = JSON.parse(localStorage.getItem('carmatch_likes') || '[]');
+    let isDragging = false, startX = 0, startY = 0, currentX = 0, currentY = 0, isAnimating = false;
 
-    // --- DOM refs ---
+    // --- DOM ---
     const authScreen = document.getElementById('auth-screen');
+    const stepEmailEl = document.getElementById('step-email');
+    const stepCodeEl = document.getElementById('step-code');
     const authEmailEl = document.getElementById('auth-email');
-    const authPassEl = document.getElementById('auth-password');
-    const btnAuth = document.getElementById('btn-auth');
+    const btnSendCode = document.getElementById('btn-send-code');
     const authError = document.getElementById('auth-error');
-    const authOk = document.getElementById('auth-ok');
-    const authToggleAction = document.getElementById('auth-toggle-action');
+    const authInfo = document.getElementById('auth-info');
+    const codeEmailDisplay = document.getElementById('code-email-display');
+    const codeDigits = document.querySelectorAll('.code-digit');
+    const btnVerify = document.getElementById('btn-verify-code');
+    const codeError = document.getElementById('code-error');
+    const codeInfo = document.getElementById('code-info');
+    const backLink = document.getElementById('back-to-email');
+
     const userEmailEl = document.getElementById('user-email');
     const btnSignout = document.getElementById('btn-signout');
-
     const container = document.getElementById('card-container');
     const loading = document.getElementById('loading');
     const actions = document.getElementById('actions');
@@ -401,330 +194,217 @@
     const likedCount = document.getElementById('liked-count');
     const counterBadge = document.getElementById('counter-badge');
 
-    // --- State ---
-    let cards = [];
-    let currentIndex = 0;
-    let likedCars = JSON.parse(localStorage.getItem('carmatch_likes') || '[]');
-    let isDragging = false;
-    let startX = 0, startY = 0, currentX = 0, currentY = 0;
-    let isAnimating = false;
-
-    // --- Auth helpers ---
-    function getHeaders() {
-      return {
-        'Authorization': `Bearer ${authToken}`,
-        'Content-Type': 'application/json',
-      };
-    }
-
-    async function authApi(method, path, body) {
-      const url = AUTH_BASE + path;
+    // --- HTTP ---
+    async function api(method, path, body) {
       const opts = { method, headers: { 'Content-Type': 'application/json' } };
       if (body) opts.body = JSON.stringify(body);
-      const res = await fetch(url, opts);
+      if (sessionToken) opts.headers['X-Session-Token'] = sessionToken;
+      const res = await fetch(API + path, opts);
       const text = await res.text();
-      if (!text) throw new Error('Empty response');
+      if (!text) return {};
       const json = JSON.parse(text);
-      if (json.error) throw new Error(json.error.message || 'Auth error');
+      if (json.error) throw new Error(json.error);
       return json;
     }
 
-    async function dbApi(method, path, body) {
-      const url = DB_BASE + path;
-      const opts = { method, headers: getHeaders() };
-      if (body) opts.body = JSON.stringify(body);
-      const res = await fetch(url, opts);
-      const text = await res.text();
-      if (!text) return { data: null };
-      const json = JSON.parse(text);
-      if (json.error) throw new Error(json.error.message);
-      return json;
-    }
-
-    function showAuthError(msg) {
-      authError.textContent = msg;
-      authOk.textContent = '';
-    }
-    function showAuthOk(msg) {
-      authOk.textContent = msg;
+    // --- Auth flow ---
+    function showStepEmail() {
+      stepEmailEl.style.display = 'block';
+      stepCodeEl.style.display = 'none';
       authError.textContent = '';
+      authInfo.textContent = '';
     }
-    function clearAuthMessages() {
+
+    function showStepCode(email) {
+      stepEmailEl.style.display = 'none';
+      stepCodeEl.style.display = 'block';
+      codeEmailDisplay.textContent = email;
+      codeError.textContent = '';
+      codeInfo.textContent = '';
+      codeDigits[0].focus();
+    }
+
+    backLink.addEventListener('click', showStepEmail);
+
+    btnSendCode.addEventListener('click', async () => {
+      const email = authEmailEl.value.trim().toLowerCase();
+      if (!email || !email.includes('@')) {
+        authError.textContent = 'Enter a valid email';
+        return;
+      }
+      btnSendCode.disabled = true;
+      btnSendCode.textContent = 'Sending...';
       authError.textContent = '';
-      authOk.textContent = '';
-    }
-
-    // --- Auth actions ---
-    async function handleAuth() {
-      const email = authEmailEl.value.trim();
-      const password = authPassEl.value;
-      if (!email) { showAuthError('Enter your email'); return; }
-      if (password.length < 8) { showAuthError('Password must be at least 8 characters'); return; }
-
-      btnAuth.disabled = true;
-      btnAuth.textContent = isSignup ? 'Creating account...' : 'Signing in...';
-      clearAuthMessages();
+      authInfo.textContent = '';
 
       try {
-        const endpoint = isSignup ? '/signup' : '/login';
-        const data = await authApi('POST', endpoint, { email, password });
-        const token = data.token;
-        if (!token) throw new Error('No token received');
-
-        authToken = token;
-        authEmail = email;
-        localStorage.setItem('carmatch_token', token);
-        localStorage.setItem('carmatch_email', email);
-
-        showAuthOk(isSignup ? 'Account created! Loading cars...' : 'Signed in! Loading cars...');
-        setTimeout(() => {
-          authScreen.classList.add('hidden');
-          userEmailEl.textContent = email;
-          btnSignout.style.display = 'block';
-          loadCars();
-        }, 400);
+        const res = await api('POST', '/api/send-otp', { email });
+        if (res.sent) {
+          stepEmail = email;
+          showStepCode(email);
+          codeInfo.textContent = 'Code sent! Check your inbox (and spam).';
+        } else {
+          authInfo.textContent = 'Code logged (email delivery issue). Try checking the server console.';
+          stepEmail = email;
+          showStepCode(email);
+        }
       } catch (e) {
-        showAuthError(e.message);
+        authError.textContent = e.message;
       }
 
-      btnAuth.disabled = false;
-      btnAuth.textContent = isSignup ? 'Create Account' : 'Sign In';
-    }
+      btnSendCode.disabled = false;
+      btnSendCode.textContent = 'Send Code';
+    });
+
+    // Code digit auto-advance
+    codeDigits.forEach((input, i) => {
+      input.addEventListener('input', () => {
+        if (input.value && i < 5) codeDigits[i + 1].focus();
+      });
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Backspace' && !input.value && i > 0) codeDigits[i - 1].focus();
+        if (e.key === 'Enter') btnVerify.click();
+      });
+    });
+
+    btnVerify.addEventListener('click', async () => {
+      const code = Array.from(codeDigits).map(i => i.value).join('');
+      if (code.length !== 6) {
+        codeError.textContent = 'Enter the full 6-digit code';
+        return;
+      }
+
+      btnVerify.disabled = true;
+      btnVerify.textContent = 'Verifying...';
+      codeError.textContent = '';
+
+      try {
+        const res = await api('POST', '/api/verify-otp', { email: stepEmail, code });
+        if (res.ok && res.session_token) {
+          sessionToken = res.session_token;
+          userEmail = res.email;
+          localStorage.setItem('carmatch_session', sessionToken);
+          localStorage.setItem('carmatch_email', userEmail);
+          authScreen.classList.add('hidden');
+          userEmailEl.textContent = userEmail;
+          btnSignout.style.display = 'block';
+          loadCars();
+        } else {
+          codeError.textContent = 'Invalid or expired code';
+        }
+      } catch (e) {
+        codeError.textContent = e.message;
+      }
+
+      btnVerify.disabled = false;
+      btnVerify.textContent = 'Verify';
+    });
 
     function signOut() {
-      authToken = null;
-      authEmail = '';
-      localStorage.removeItem('carmatch_token');
+      sessionToken = null;
+      userEmail = '';
+      localStorage.removeItem('carmatch_session');
       localStorage.removeItem('carmatch_email');
       userEmailEl.textContent = '';
       btnSignout.style.display = 'none';
       authScreen.classList.remove('hidden');
+      showStepEmail();
       authEmailEl.value = '';
-      authPassEl.value = '';
-      clearAuthMessages();
-      isSignup = false;
-      btnAuth.textContent = 'Sign In';
-      authToggleAction.textContent = 'Sign Up';
-      authEmailEl.focus();
+      codeDigits.forEach(i => i.value = '');
     }
 
-    function toggleAuthMode() {
-      isSignup = !isSignup;
-      btnAuth.textContent = isSignup ? 'Create Account' : 'Sign In';
-      authToggleAction.textContent = isSignup ? 'Sign In' : 'Sign Up';
-      clearAuthMessages();
+    btnSignout.addEventListener('click', signOut);
+
+    // Check existing session
+    if (sessionToken) {
+      api('POST', '/api/verify-session', { session_token: sessionToken }).then(res => {
+        if (res.valid) {
+          authScreen.classList.add('hidden');
+          userEmailEl.textContent = res.email;
+          userEmail = res.email;
+          btnSignout.style.display = 'block';
+          loadCars();
+        } else {
+          localStorage.removeItem('carmatch_session');
+          authScreen.classList.remove('hidden');
+        }
+      }).catch(() => {
+        authScreen.classList.remove('hidden');
+      });
     }
 
-    // --- Check existing session ---
-    if (authToken) {
-      // Try to use existing token - validate by making a request
-      authScreen.classList.add('hidden');
-      userEmailEl.textContent = authEmail;
-      btnSignout.style.display = 'block';
-    } else {
-      authScreen.classList.remove('hidden');
-    }
-
-    // --- Card rendering ---
+    // --- Card stuff (same as before) ---
     function buildCard(car, index) {
       const div = document.createElement('div');
       div.className = 'card';
       div.dataset.index = index;
-
       div.innerHTML = `
         <div class="stamp nope" id="stamp-nope">NOPE</div>
         <div class="stamp like" id="stamp-like">LIKE</div>
         <img class="car-img" src="${car.image_url}" alt="${car.make} ${car.model}" loading="lazy" onerror="this.src='data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%22600%22 height=%22800%22><rect fill=%22%23333%22 width=%22600%22 height=%22800%22/><text x=%22300%22 y=%22400%22 text-anchor=%22middle%22 fill=%22%23666%22 font-size=%2224%22>${encodeURIComponent(car.make + ' ' + car.model)}</text></svg>'">
         <div class="counter">${index + 1}/${cards.length}</div>
-        <div class="overlay">
-          <div class="name">${car.year} ${car.make} <span>${car.model}</span></div>
-          <div class="bio">${car.bio || ''}</div>
-        </div>
-      `;
-
+        <div class="overlay"><div class="name">${car.year} ${car.make} <span>${car.model}</span></div><div class="bio">${car.bio || ''}</div></div>`;
       const offset = index - currentIndex;
+      if (offset === 0) div.style.zIndex = 10;
+      else if (offset < 3) { div.style.transform = `scale(${1 - offset * 0.05}) translateY(${offset * 8}px)`; div.style.zIndex = 10 - offset; div.style.pointerEvents = 'none'; }
+      else div.style.display = 'none';
       if (offset === 0) {
-        div.style.zIndex = 10;
-      } else if (offset < 3) {
-        div.style.transform = `scale(${1 - offset * 0.05}) translateY(${offset * 8}px)`;
-        div.style.zIndex = 10 - offset;
-        div.style.pointerEvents = 'none';
-      } else {
-        div.style.display = 'none';
+        div.addEventListener('pointerdown', onPointerDown); div.addEventListener('pointermove', onPointerMove);
+        div.addEventListener('pointerup', onPointerUp); div.addEventListener('pointercancel', onPointerUp);
       }
-
-      if (offset === 0) {
-        div.addEventListener('pointerdown', onPointerDown);
-        div.addEventListener('pointermove', onPointerMove);
-        div.addEventListener('pointerup', onPointerUp);
-        div.addEventListener('pointercancel', onPointerUp);
-      }
-
       return div;
     }
 
-    // --- Drag logic ---
     const SWIPE_THRESHOLD = 80;
-
-    function onPointerDown(e) {
-      if (isAnimating) return;
-      isDragging = true;
-      startX = e.clientX;
-      startY = e.clientY;
-      currentX = 0;
-      currentY = 0;
-      e.currentTarget.style.transition = 'none';
-    }
-
-    function onPointerMove(e) {
-      if (!isDragging) return;
-      e.preventDefault();
-      currentX = e.clientX - startX;
-      currentY = e.clientY - startY;
-      const card = e.currentTarget;
-      card.style.transform = `translate(${currentX}px, ${currentY}px) rotate(${Math.max(-25, Math.min(25, currentX * 0.1))}deg)`;
-
-      card.querySelector('#stamp-nope').style.opacity = currentX < -30 ? Math.min(1, Math.abs(currentX) / 150) : 0;
-      card.querySelector('#stamp-like').style.opacity = currentX > 30 ? Math.min(1, currentX / 150) : 0;
-    }
-
+    function onPointerDown(e) { if (isAnimating) return; isDragging = true; startX = e.clientX; startY = e.clientY; currentX = 0; currentY = 0; e.currentTarget.style.transition = 'none'; }
+    function onPointerMove(e) { if (!isDragging) return; e.preventDefault(); currentX = e.clientX - startX; currentY = e.clientY - startY; const c = e.currentTarget; c.style.transform = `translate(${currentX}px, ${currentY}px) rotate(${Math.max(-25, Math.min(25, currentX * 0.1))}deg)`; c.querySelector('#stamp-nope').style.opacity = currentX < -30 ? Math.min(1, Math.abs(currentX) / 150) : 0; c.querySelector('#stamp-like').style.opacity = currentX > 30 ? Math.min(1, currentX / 150) : 0; }
     function onPointerUp(e) {
-      if (!isDragging) return;
-      isDragging = false;
-      const card = e.currentTarget;
-
-      if (Math.abs(currentX) > SWIPE_THRESHOLD) {
-        const direction = currentX > 0 ? 'right' : 'left';
-        isAnimating = true;
-        card.style.transition = 'transform 0.4s ease';
-        card.style.transform = `translate(${direction === 'right' ? 800 : -800}px, ${currentY + 100}px) rotate(${direction === 'right' ? 25 : -25}deg)`;
-        card.style.pointerEvents = 'none';
-
-        setTimeout(() => {
-          if (direction === 'right') likeCar();
-          else skipCar();
-          card.remove();
-          isAnimating = false;
-          renderCards();
-        }, 400);
-      } else {
-        card.style.transition = 'transform 0.3s ease';
-        card.style.transform = '';
-        card.querySelector('#stamp-nope').style.opacity = 0;
-        card.querySelector('#stamp-like').style.opacity = 0;
-      }
+      if (!isDragging) return; isDragging = false; const c = e.currentTarget;
+      if (Math.abs(currentX) > SWIPE_THRESHOLD) { const d = currentX > 0 ? 'right' : 'left'; isAnimating = true; c.style.transition = 'transform 0.4s ease'; c.style.transform = `translate(${d === 'right' ? 800 : -800}px, ${currentY + 100}px) rotate(${d === 'right' ? 25 : -25}deg)`; c.style.pointerEvents = 'none'; setTimeout(() => { if (d === 'right') likeCar(); else skipCar(); c.remove(); isAnimating = false; renderCards(); }, 400); }
+      else { c.style.transition = 'transform 0.3s ease'; c.style.transform = ''; c.querySelector('#stamp-nope').style.opacity = 0; c.querySelector('#stamp-like').style.opacity = 0; }
     }
 
-    function likeCar() {
-      const car = cards[currentIndex];
-      if (!car) return;
-      if (!likedCars.find(c => c.id === car.id)) {
-        likedCars.push({ id: car.id, make: car.make, model: car.model });
-        localStorage.setItem('carmatch_likes', JSON.stringify(likedCars));
-      }
-      currentIndex++;
-      updateUI();
-    }
-
+    function likeCar() { const car = cards[currentIndex]; if (!car) return; if (!likedCars.find(c => c.id === car.id)) { likedCars.push({ id: car.id, make: car.make, model: car.model }); localStorage.setItem('carmatch_likes', JSON.stringify(likedCars)); } currentIndex++; updateUI(); }
     function skipCar() { currentIndex++; updateUI(); }
-
-    function updateUI() {
-      likedCount.textContent = likedCars.length;
-      counterBadge.textContent = `${likedCars.length} liked`;
-      renderLikedGrid();
-    }
-
-    function renderLikedGrid() {
-      if (likedGrid.classList.contains('open')) {
-        likedGrid.innerHTML = likedCars.map(c =>
-          `<span class="chip">${c.make} ${c.model}</span>`
-        ).join('');
-      }
-    }
+    function updateUI() { likedCount.textContent = likedCars.length; counterBadge.textContent = `${likedCars.length} liked`; renderLikedGrid(); }
+    function renderLikedGrid() { if (likedGrid.classList.contains('open')) likedGrid.innerHTML = likedCars.map(c => `<span class="chip">${c.make} ${c.model}</span>`).join(''); }
 
     function renderCards() {
-      container.innerHTML = '';
-      actions.style.display = 'none';
-
+      container.innerHTML = ''; actions.style.display = 'none';
       if (currentIndex >= cards.length) {
-        container.innerHTML = `
-          <div class="empty-deck">
-            <div class="icon">🏎️</div>
-            <p>You've seen every car</p>
-            <div class="sub">You liked ${likedCars.length} cars</div>
-          </div>
-        `;
-        actions.style.display = 'flex';
-        document.getElementById('btn-nope').style.opacity = '0.3';
-        document.getElementById('btn-like').style.opacity = '0.3';
+        container.innerHTML = `<div class="empty-deck"><div class="icon">🏎️</div><p>You've seen every car</p><div class="sub">You liked ${likedCars.length} cars</div></div>`;
+        actions.style.display = 'flex'; document.getElementById('btn-nope').style.opacity = '0.3'; document.getElementById('btn-like').style.opacity = '0.3';
         return;
       }
-
-      actions.style.display = 'flex';
-      document.getElementById('btn-nope').style.opacity = '1';
-      document.getElementById('btn-like').style.opacity = '1';
-
-      for (let i = currentIndex; i < Math.min(currentIndex + 3, cards.length); i++) {
-        container.appendChild(buildCard(cards[i], i));
-      }
+      actions.style.display = 'flex'; document.getElementById('btn-nope').style.opacity = '1'; document.getElementById('btn-like').style.opacity = '1';
+      for (let i = currentIndex; i < Math.min(currentIndex + 3, cards.length); i++) container.appendChild(buildCard(cards[i], i));
     }
 
     async function loadCars() {
       try {
         loading.textContent = 'Loading cars...';
-        const res = await dbApi('GET', '/cars?limit=50');
+        const res = await api('GET', '/api/cars');
         cards = (res.data || []).sort(() => Math.random() - 0.5);
-        if (cards.length === 0) {
-          loading.textContent = 'No cars in the stable!';
-          return;
-        }
-        currentIndex = 0;
-        renderCards();
-        updateUI();
-      } catch (e) {
-        loading.textContent = 'Failed to load: ' + e.message;
-        // If token expired, sign out
-        if (e.message.includes('unauthorized') || e.message.includes('expired')) {
-          signOut();
-        }
-      }
+        if (!cards.length) { loading.textContent = 'No cars!'; return; }
+        currentIndex = 0; renderCards(); updateUI();
+      } catch (e) { loading.textContent = 'Failed: ' + e.message; if (e.message.includes('session') || e.message.includes('401')) signOut(); }
     }
-
-    // --- Event listeners ---
-    btnAuth.addEventListener('click', handleAuth);
-    authPassEl.addEventListener('keydown', e => { if (e.key === 'Enter') handleAuth(); });
-    authToggleAction.addEventListener('click', toggleAuthMode);
-    btnSignout.addEventListener('click', signOut);
 
     document.getElementById('btn-nope').addEventListener('click', () => {
       if (isAnimating || currentIndex >= cards.length) return;
-      const topCard = container.querySelector('.card');
-      if (!topCard) return;
+      const c = container.querySelector('.card'); if (!c) return;
       isAnimating = true;
-      topCard.style.transition = 'transform 0.35s ease';
-      topCard.style.transform = 'translate(-500px, 80px) rotate(-20deg)';
-      topCard.style.pointerEvents = 'none';
-      setTimeout(() => { skipCar(); topCard.remove(); isAnimating = false; renderCards(); }, 350);
+      c.style.transition = 'transform 0.35s ease'; c.style.transform = 'translate(-500px, 80px) rotate(-20deg)'; c.style.pointerEvents = 'none';
+      setTimeout(() => { skipCar(); c.remove(); isAnimating = false; renderCards(); }, 350);
     });
-
     document.getElementById('btn-like').addEventListener('click', () => {
       if (isAnimating || currentIndex >= cards.length) return;
-      const topCard = container.querySelector('.card');
-      if (!topCard) return;
+      const c = container.querySelector('.card'); if (!c) return;
       isAnimating = true;
-      topCard.style.transition = 'transform 0.35s ease';
-      topCard.style.transform = 'translate(500px, 80px) rotate(20deg)';
-      topCard.style.pointerEvents = 'none';
-      setTimeout(() => { likeCar(); topCard.remove(); isAnimating = false; renderCards(); }, 350);
+      c.style.transition = 'transform 0.35s ease'; c.style.transform = 'translate(500px, 80px) rotate(20deg)'; c.style.pointerEvents = 'none';
+      setTimeout(() => { likeCar(); c.remove(); isAnimating = false; renderCards(); }, 350);
     });
-
-    likedToggle.addEventListener('click', () => {
-      likedGrid.classList.toggle('open');
-      renderLikedGrid();
-    });
-
-    // --- Boot ---
-    if (authToken) loadCars();
+    likedToggle.addEventListener('click', () => { likedGrid.classList.toggle('open'); renderLikedGrid(); });
   </script>
 </body>
 </html>
